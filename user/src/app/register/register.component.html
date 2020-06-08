@@ -1,0 +1,79 @@
+<header>
+  <h2 class="header-regis"> Registration </h2>
+</header>
+<mat-horizontal-stepper [linear]="!isLinear" #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Fill out fields</ng-template>
+
+        <mat-form-field>
+          <mat-label>Login</mat-label>
+          <input matInput placeholder="Login" formControlName="login" required>
+          <mat-error *ngIf="firstFormGroup.controls['login'].hasError('forbiddenName') && firstFormGroup.controls['login'].touched" > Is a forbiden name </mat-error>
+        </mat-form-field>
+        <br/>
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email" formControlName="Email" required>
+        </mat-form-field>
+        <br/>
+        <br/>
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput placeholder="Password" formControlName="password" required>
+        </mat-form-field>
+        <br/>
+        <mat-form-field>
+            <mat-label>Confirm password</mat-label>
+            <input matInput placeholder="Confirm password" formControlName="confirmPassword" required>
+            <mat-error *ngIf="firstFormGroup.controls['confirmPassword'].pristine || firstFormGroup.controls['confirmPassword'].errors?.MatchPassword">Password does not match</mat-error>
+        </mat-form-field>
+
+        <div>
+          <button class="btn" mat-button mat-raised-button color="primary" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+
+    <mat-step [stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Fill out information</ng-template>
+
+        <mat-form-field>
+          <mat-label>Last name, First name</mat-label>
+          <input matInput placeholder="Last name, First name" formControlName="secondCtrl" required>
+        </mat-form-field>
+        <br/>
+        <mat-form-field>
+          <mat-label>Date of Birth</mat-label>
+          <input matInput formControlName="FromDate" [matDatepicker]="picker" [min]="minFromDate" [max]="maxToDate">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="secondFormGroup.get('FromDate').hasError('requiredFromDate')">Date is not Valid</mat-error>
+        </mat-form-field>
+        <br/>
+        <mat-form-field>
+          <mat-label>About you</mat-label>
+          <textarea matInput formControlName="secondCtrl" placeholder="Example - Address: 1 Main St, New York, NY" required></textarea>
+        </mat-form-field>
+        <br/>
+        
+        <app-upload-form></app-upload-form>
+        <br/>
+        <div>
+          <button class="btn" mat-button mat-raised-button color="primary" matStepperPrevious>Back</button>
+          <button class="btn" mat-button mat-raised-button color="primary" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Finish</ng-template>
+      <p>Everything seems correct. Confirm the data? </p>
+      <div>
+        <button mat-button (click)="stepper.reset()">Reset</button>&nbsp;
+        <button mat-raised-button color="primary" (click)="confirmYes()" >Done</button> 
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+  

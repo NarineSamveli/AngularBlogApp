@@ -1,0 +1,28 @@
+<div class="list-group">
+    <a *ngFor="let post of posts" class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{post.author}}</h5>
+            <h5 class="mb-1">{{post.title}}</h5>
+            <small>{{post.date}}</small>
+        </div>
+        <p class="mb-1">{{post.description}}</p>  
+    
+        <small class="fas fa-show"  (click)="showPost(post)" data-toggle="modal" data-target="#oneModal"  aria-hidden="true">read more...</small>
+        
+        <div class="d-flex w-100 justify-content-between" >
+        
+        <div class="action" *ngIf="isAdmin">
+            <i title="Edit" class="fas fa-edit" (click)="editPost(post)" aria-hidden="true"></i>
+            <i title="Delete" class="fas fa-trash-alt" (click)="setDelete(post)" data-toggle="modal" data-target="#deleteModal" aria-hidden="true"></i>
+        </div>
+        <div class="likes">            
+            <mat-icon> insert_comment</mat-icon>
+            <span>   </span> <mat-icon matBadge="{{post.likes}}" matBadgeOverlap="true" matBadgeSize="small" matBadgeColor="warn">favorite</mat-icon>
+        </div>
+        </div>
+    </a>
+</div>
+<app-show-one-post></app-show-one-post>
+<app-delete-modal></app-delete-modal>
+
+

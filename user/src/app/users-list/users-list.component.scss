@@ -1,0 +1,15 @@
+table {
+    width: 100%;
+    float: right;
+    position: relative;
+}
+
+tr:hover {
+    background: darken(#efefef, 10%);
+    cursor: pointer;
+}
+
+tr:active {
+    background: #efefef;
+}
+

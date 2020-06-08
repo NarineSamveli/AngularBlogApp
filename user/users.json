@@ -1,0 +1,33 @@
+[
+    {
+        "_id": "5ed7f62408432daf896f7240",
+        "firstName": "Narine",
+        "lastName": "Pogosyan",
+        "username": "nar",
+        "password": "123",
+        "dateOfBirth": "01/01/1994",
+        "aboutYou": "From Voronezh",
+        "role": "user"
+    },
+    {
+        "_id": "5edbbed9614836b1fc9c006d",
+        "firstName": "Tom",
+        "lastName": "Smith",
+        "username": "tom",
+        "password": "123",
+        "dateOfBirth": "01/02/1990",
+        "aboutYou": "From USA",
+        "role": "user"
+    },
+    {
+        "_id": "5edbbed9614836b1fc9c006e",
+        "firstName": "Alla",
+        "lastName": "Toms",
+        "username": "alla",
+        "password": "123",
+        "dateOfBirth": "05/01/1996",
+        "aboutYou": "From Italia",
+        "role": "user"
+    }
+
+]
