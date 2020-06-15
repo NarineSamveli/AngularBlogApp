@@ -1,7 +1,7 @@
 <header>
   <h2 class="header-regis"> Registration </h2>
 </header>
-<mat-horizontal-stepper [linear]="!isLinear" #stepper>
+<mat-horizontal-stepper [linear]="isLinear" #stepper>
     <mat-step [stepControl]="firstFormGroup">
       <form [formGroup]="firstFormGroup">
         <ng-template matStepLabel>Fill out fields</ng-template>

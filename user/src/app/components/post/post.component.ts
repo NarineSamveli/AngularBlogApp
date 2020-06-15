@@ -41,7 +41,8 @@ export class PostComponent implements OnInit {
 
   addPost() {
     if (this.post.title){
-      if (this.post.id){
+      // tslint:disable-next-line: no-string-literal
+      if (this.post['_id']){
         this.postService.updatePost(this.post).subscribe(res => {
           this.closeBtn.nativeElement.click();
           this.commonService.notifyPostAddition();

@@ -51,7 +51,7 @@ app.post('/api/user/login', (req, res) => {
 	userCollection.findOne({'login': req.body.login, 'password': req.body.password}, 
 	function(err, user){
 			if(err) throw err;
-			if(user.role === 'user'){	
+			if(user !== null){	
 				return res.status(200).json({
 					status: 'success',
 					data: user

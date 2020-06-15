@@ -16,7 +16,7 @@ export class CommentsComponent implements OnInit {
   constructor(private commentService: CommentService) { }
 
   ngOnInit() {
-
+    console.log(this.commentid)
     this.commentService.getAllComments(this.commentid).subscribe((res: any) => {
       if (res.success){
         this.comments = res.data;
@@ -55,19 +55,22 @@ export class CommentsComponent implements OnInit {
       } else {
         if (comment.whoLiked.indexOf(whoLiked) >=  0 ) {
           // tslint:disable-next-line: max-line-length
-          const changeClass: HTMLElement = document.getElementsByClassName('commentsBlock')[i].getElementsByClassName('commentlikesCount')[0] as HTMLElement;
-          changeClass.setAttribute('disabled', 'true') ;
-          changeClass.style.cursor = 'not-allowed';
+          // const changeClass: HTMLElement = document.getElementsByClassName('commentsBlock')[i].getElementsByClassName('commentlikesCount')[0] as HTMLElement;
+          // changeClass.setAttribute('disabled', 'true') ;
+          // changeClass.style.cursor = 'not-allowed';
+          comment.whoLiked = comment.whoLiked.replace(whoLiked, '');
+          comment.likes = +comment.likes - 1;
         } else {
           comment.whoLiked = comment.whoLiked + '\n' + whoLiked;
+          comment.whoLiked = comment.whoLiked.replace('\n\n', '\n');
           comment.likes = +comment.likes + 1;
         }
       }
     }
     this.commentService.updateComment(comment).subscribe(res => {
     });
-
   }
+
   deleteComment(id){
     this.commentService.deleteComment(id).subscribe((res: any) => {
       if (res.delete){

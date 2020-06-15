@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
         // console.log('result is ', result);
         // tslint:disable-next-line: no-string-literal
         if (result['status'] === 'success') {
+          // tslint:disable-next-line: no-string-literal
           this.user = result['data'];
           // tslint:disable-next-line: no-string-literal
           localStorage.setItem('loggedInID', result['data']['_id']);
@@ -42,6 +43,7 @@ export class LoginComponent implements OnInit {
         }
       }, error => {
         console.log('error is ', error);
+        alert('Wrong login and password');
       });
     } else {
         alert('enter login and password');

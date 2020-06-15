@@ -66,11 +66,14 @@ export class ShowAllPostsComponent implements OnInit {
       } else {
         if (post.whoLiked.indexOf(whoLiked) >= 0) {
           // tslint:disable-next-line: max-line-length
-          const changeClass: HTMLElement = document.getElementsByClassName('likes')[i].getElementsByClassName('likesCount')[0] as HTMLElement;
-          changeClass.setAttribute('disabled', 'true') ;
-          changeClass.style.cursor = 'not-allowed';
+          // const changeClass: HTMLElement = document.getElementsByClassName('likes')[i].getElementsByClassName('likesCount')[0] as HTMLElement;
+          // changeClass.setAttribute('disabled', 'true') ;
+          // changeClass.style.cursor = 'not-allowed';
+          post.whoLiked = post.whoLiked.replace(whoLiked, '');
+          post.likes = +post.likes - 1;
         } else {
           post.whoLiked = post.whoLiked + '\n' + whoLiked;
+          post.whoLiked = post.whoLiked.replace('\n\n', '\n');
           post.likes = +post.likes + 1;
         }
       }
