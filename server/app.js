@@ -166,8 +166,8 @@ app.put('/api/post/updatePost',function(req, result){
 
 //------------Comments------------------------------------------------------------
 
-app.get('/api/comment/getAllComments',function(req,res){
-    commentCollection.find({postId:req.body.id}).toArray(function(err, result) {
+app.get('/api/comment/getAllComments/:id',function(req,res){
+    commentCollection.find({postId: req.params.id}).toArray(function(err, result) {
         //console.log(result);
         if (!err){
             res.send({

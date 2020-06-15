@@ -6,6 +6,7 @@ const postSchema = new Schema({
   description: { type: String },
   likes: { type: String },
   whoLiked: { type: String },
+  postId: { type: String},
   date: { type: String }
 }, { collection : 'comment' });
  

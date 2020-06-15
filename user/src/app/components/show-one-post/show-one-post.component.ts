@@ -3,6 +3,8 @@ import { Post } from '../../models/post.model';
 import { PostService } from '../../services/post.service';
 import { Router } from '@angular/router';
 import { CommonService } from '../../services/common.service';
+import { MatExpansionPanel } from '@angular/material/expansion';
+
 
 @Component({
   selector: 'app-show-one-post',
@@ -11,6 +13,7 @@ import { CommonService } from '../../services/common.service';
 })
 export class ShowOnePostComponent implements OnInit {
   @ViewChild('closeBtn') closeBtn: ElementRef;
+  @ViewChild(MatExpansionPanel, {static: true}) matExpansionPanelElement: MatExpansionPanel;
   public post: Post;
   panelOpenState = false;
   public isVisible;
@@ -30,6 +33,8 @@ export class ShowOnePostComponent implements OnInit {
       // console.log('post is ', this.post._id);
     });
     this.commonService.postShow_Observable.subscribe(res => {
+      this.panelOpenState = false;
+      this.matExpansionPanelElement.close();
       if (this.commonService.post_to_be_showed.description.length === 0) {
         this.isVisible = false;
         this.isVisible2 = true;
@@ -56,6 +61,8 @@ export class ShowOnePostComponent implements OnInit {
         });
       } else {
         this.postService.addPost(this.post).subscribe(res => {
+          // tslint:disable-next-line: no-string-literal
+          this.commonService.DoShare(this.post['_id']);
           this.closeBtn.nativeElement.click();
           this.commonService.notifyPostAddition();
         });
@@ -63,6 +70,11 @@ export class ShowOnePostComponent implements OnInit {
     } else {
         alert('Title and Description required');
     }
+  }
+
+  togglePanel(event, post) {
+    // tslint:disable-next-line: no-string-literal
+    this.commonService.DoShare(post['_id']);
   }
 
 }

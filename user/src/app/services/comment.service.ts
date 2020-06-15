@@ -9,7 +9,7 @@ export class CommentService {
   constructor(private http: HttpClient) { }
 
   getAllComments(id){
-    return this.http.get(this.url + '/api/comment/getAllComments', id);
+    return this.http.get(this.url + '/api/comment/getAllComments/' + id);
   }
 
   addComment(data){

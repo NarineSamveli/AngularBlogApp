@@ -31,17 +31,17 @@
 
                     <mat-accordion>
                         <mat-expansion-panel (opened)="panelOpenState = true"
-                                             (closed)="panelOpenState = false">
-                          <mat-expansion-panel-header class="commentPanel">
+                                             (closed)="panelOpenState = false" #matExpansionPanel>
+                          <mat-expansion-panel-header class="commentPanel" (click)="togglePanel($event, post)">
                             <mat-panel-title> Comments &nbsp; <i class="fa fa-comments" aria-hidden="true"></i></mat-panel-title>
                             <mat-panel-description>
                               Currently I am {{panelOpenState ? 'open' : 'closed'}}
                             </mat-panel-description>
                           </mat-expansion-panel-header>
-                          <app-comments [commentid]="post.id" ></app-comments>
+                          <app-comments [commentid]="post" ></app-comments>
                         </mat-expansion-panel>
-                      </mat-accordion>
-                      <br/>
+                    </mat-accordion>
+                    <br/>
 
                       <button #closeBtn  type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
                 </form>

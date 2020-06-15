@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Post } from '../models/post.model';
+import { EventEmitter } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,8 @@ export class CommonService {
   public post_to_be_showed;
   // tslint:disable-next-line: variable-name
   public post_to_be_delete;
+
+  newId: EventEmitter<number> = new EventEmitter();
 
   constructor(){
     this.post_to_be_edited = new Post();
@@ -56,6 +59,10 @@ export class CommonService {
 
   notifyPostAddition(){
     this.postAdded_Observable.next();
+  }
+
+  DoShare(id){
+    this.newId.emit(id);
   }
 
 }

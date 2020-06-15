@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CommentService } from '../../services/comment.service';
-
+import { CommonService } from '../../services/common.service';
 
 @Component({
   selector: 'app-comments',
@@ -13,10 +13,22 @@ export class CommentsComponent implements OnInit {
   comment: any = {};
   @Input() commentid: any;
 
-  constructor(private commentService: CommentService) { }
+  constructor(private commonService: CommonService, private commentService: CommentService) {
+
+    this.commonService.newId.subscribe(id => {
+      this.commentid = id;
+      this.commentService.getAllComments(this.commentid).subscribe((res: any) => {
+        if (res.success){
+          this.comments = res.data;
+        } else{
+          alert('No Comments Found.');
+        }
+      });
+    });
+
+   }
 
   ngOnInit() {
-    console.log(this.commentid)
     this.commentService.getAllComments(this.commentid).subscribe((res: any) => {
       if (res.success){
         this.comments = res.data;
