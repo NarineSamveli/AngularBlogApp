@@ -1,21 +1,23 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
-import { AddPostComponent } from './add-post/add-post.component';
-import { PersonalPageComponent } from './personal-page/personal-page.component';
-import { RegisterComponent } from './register/register.component';
-import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { LoginComponent } from './pages/login/login.component';
+import { HomeComponent } from './pages/home/home.component';
+import { PostComponent } from './components/post/post.component';
+import { PersonalPageComponent } from './pages/personal-page/personal-page.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { AdminPanelComponent } from './pages/admin-panel/admin-panel.component';
 import { AuthGuard } from './guards/auth.guard';
+import { UserResolveService } from './services/user-resolve.service';
+import { UserCardComponent } from './pages/users-list/user-card/user-card.component';
 
- // Определите путь маршрута и компонентов следующим образом:
+
 export const routes: Routes = [
-  { path: '', component: LoginComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'add', component: AddPostComponent},
+  { path: 'add', component: PostComponent},
   { path: 'personalPage', component: PersonalPageComponent, canActivate: [AuthGuard], data: { roles: ['user'] }},
   { path: 'register', component: RegisterComponent},
   { path: 'admin', component: AdminPanelComponent, canActivate: [AuthGuard], data: { roles: ['admin'] }},
+  { path: '', component: LoginComponent },
   { path: '**', redirectTo: '' }
 ];
 

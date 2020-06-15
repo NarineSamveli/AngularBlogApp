@@ -1,0 +1,16 @@
+.modal-content {
+    position: relative;
+}
+
+.dropdown-item:hover{
+    cursor: pointer;
+}
+
+img {
+    background-size: cover;
+    max-width: 100px;
+    border-radius: 35%;
+    margin: 4px;
+    border-color: blue; 
+    border-style: solid;
+}

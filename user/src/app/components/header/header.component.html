@@ -1,0 +1,34 @@
+<header class="header clearfix">
+    <nav>
+        <ul class="nav nav-pills float-right">
+            
+            <li class="nav-item">
+                <button routerLink="/home" type="button" class="btn btn-primary">
+                  Home
+                </button>
+            </li>           
+            
+            <li class="nav-item" *ngIf="!isAdmin">
+                <button #addPost type="button" class="btn btn-link" data-toggle="modal" data-target="#exampleModal">
+                    Add
+                </button>
+            </li>
+            <li class="nav-item">
+                <button (click)="logout()" type="button" class="btn btn-link">
+                    Logout
+                </button>
+            </li>
+        </ul>
+    </nav>
+    <div class="btn-group open">
+        <a class="btn btn-primary" routerLink="/personalPage" *ngIf="!isAdmin" ><i class="fa fa-user fa-fw"></i> User page</a>
+        <a class="btn btn-primary" routerLink="/admin" *ngIf="isAdmin"><i class="fa fa-user fa-fw"></i> Admin page</a>
+        &nbsp;
+        <img class="example-header-image" [src]="filename" /> &nbsp;
+        <span>
+            <h4>Hello, {{user.fullName}} </h4>
+        </span> 
+    </div>
+    
+</header>
+<app-post></app-post>

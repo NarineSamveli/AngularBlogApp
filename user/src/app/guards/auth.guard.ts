@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { PersonalServiceService } from '../personal-page/personal-service.service';
+import { UserService } from '../services/user.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
     public role;
-    constructor( private router: Router, private personalService: PersonalServiceService ) {
+    constructor( private router: Router, private userService: UserService ) {
         if (localStorage.getItem('loggedInID') === 'admin') {
             this.role = 'admin';
         } else {
-            this.personalService.getUser(localStorage.getItem('loggedInID')).subscribe(user => {
+            this.userService.getUser(localStorage.getItem('loggedInID')).subscribe(user => {
                 this.role = user['role'];
             });
         }

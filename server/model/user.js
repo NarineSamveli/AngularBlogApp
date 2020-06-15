@@ -3,9 +3,15 @@ const Schema = mongoose.Schema;
 
 // create a schema
 const userSchema = new Schema({
-  username: { type: String, required: true, unique: true },
+  login: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  name: { type: String }
+  fullName: { type: String, required: true },
+  email: { type: String },
+  confirmPassword: { type: String },
+  filename: { type: String },
+  dateOfBirth: { type: String },
+  aboutYou: { type: String },
+  role: { type: String }
 }, { collection : 'user' });
  
 const User = mongoose.model('User', userSchema);
