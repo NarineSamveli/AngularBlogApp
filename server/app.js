@@ -2,9 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const url = 'mongodb://localhost:27017/blogDb';
-const User = require('./model/user');
-const Post = require('./model/post');
-const Comment = require('./model/comment');
+const User = require('./src/user/models/user.model');
+const Post = require('./src/post/models/post.model');
+const Comment = require('./src/comment/models/comment.model');
 var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
 var userCollection, postCollection, commentCollection, db;
@@ -26,6 +26,22 @@ MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, fu
 	userCollection = db.collection('user', function(err, collection) {});
 	postCollection = db.collection('post', function(err, collection) {});
 	commentCollection = db.collection('comment', function(err, collection) {});
+	userCollection.findOne({'login': 'admin'}, function(err,docs){
+        if (docs === null){
+            userCollection.insertOne({
+				login: 'admin',
+				password: 'admin',
+				fullName: 'Mr. Admin',
+				email: 'admin@admin.com',
+				confirmPassword: 'admin',
+				filename: '',
+				dateOfBirth: '01.01.1994',
+				aboutYou: 'Admin',
+				role: 'admin',
+				isDeleted: false
+			});
+        }
+	}); 
     app.listen(3000, function(){
         console.log("Server start work...");
     });
@@ -33,9 +49,11 @@ MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, fu
 
 //------------User-----------------------------------------------------------
 
-app.post('/api/user/signup', function(req,res){
+app.post('/api/authorization/signup', function(req,res){
 	userCollection.findOne({'login': req.body.login}, function(err,docs){
         if (docs === null){
+			req.body.role = 'user';
+			req.body.isDeleted = false;
             userCollection.insertOne(req.body, function(err, res) {
                 if (err) throw err;
                 // console.log("1 document inserted");
@@ -47,8 +65,8 @@ app.post('/api/user/signup', function(req,res){
     });    
 });
 
-app.post('/api/user/login', (req, res) => {	
-	userCollection.findOne({'login': req.body.login, 'password': req.body.password}, 
+app.post('/api/authorization/login', (req, res) => {	
+	userCollection.findOne({'login': req.body.login, 'password': req.body.password, 'isDeleted': false}, 
 	function(err, user){
 			if(err) throw err;
 			if(user !== null){	
@@ -65,15 +83,17 @@ app.post('/api/user/login', (req, res) => {
 	})
 });
 
-app.put('/api/user/update/',function(req, result){ 
+app.put('/api/user/update/', function(req, result){ 
 	userCollection.findOneAndUpdate({"_id": new ObjectId(req.body["_id"])}, 
 	  { $set: {
 		  "fullName": req.body.fullName,
+		  "login": req.body.login,
 		  "password": req.body.password,
 		  "confirmPassword": req.body.confirmPassword,
 		  "dateOfBirth": req.body.dateOfBirth,
 		  "aboutYou": req.body.aboutYou,
-		  "filename": req.body.filename },
+		  "filename": req.body.filename,
+		  "isDeleted": req.body.isDeleted },
 	  }, function(err, res){
 		  if (err) throw err;
 		  if(!err){
@@ -115,6 +135,36 @@ app.get('/api/post/getAllPost', (req, res) => {
 		})
 	})
 });
+
+// app.get('/api/post/getAllPost', (req, res) => {
+// 	let clearUser = userCollection.find({"isDeleted": true});
+// 	var result = [];
+// 	clearUser.forEach(function(obj){
+// 		postCollection.find({"authorId": String(obj['_id'])}).toArray((err, doc) => {
+// 			if(err) throw err;
+// 			result.push(doc)
+// 		})
+// 	})
+// 	return res.status(200).json({
+// 		status: 'success',
+// 		data: result
+// 	})
+// 	// .aggregate([
+// 	// 	{$lookup:{
+// 	// 		from: "post",
+// 	// 		localField: "_id",
+// 	// 		foreignField: "authorId",
+// 	// 		as: "allPosts"
+// 	// 	}}
+// 	//  ]).toArray((err, doc) => {
+// 	// 	if(err) throw err;
+// 	// 	console.log(doc)
+// 	// 	return res.status(200).json({
+// 	// 		status: 'success',
+// 	// 		data: doc
+// 	// 	})
+// 	// })
+// });
 
 app.get('/api/post/getAllUserPost/:id', (req, res) => {
 	postCollection.find({"authorId": req.params.id}).sort( { date: -1, likes: -1  }).toArray((err, doc) => {

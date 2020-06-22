@@ -1,0 +1,22 @@
+<div *ngIf="true">
+    <div class="commentsBlock" *ngFor="let comment of comments, index as i">
+          <br/><label>Commented By: {{comment.author}}</label>
+          <textarea id="description" class="form-control" name="description">{{comment.description}}</textarea> &nbsp;
+          <div class="action" *ngIf="isAdmin">
+            <i title="Delete" class="fas fa-trash-alt" (click)="deleteComment(comment)" aria-hidden="true"></i>
+          </div>
+          <div class="likes">
+            <mat-icon data-toggle="tooltip" data-title="{{comment.whoLiked}}" id="commentlikesCount" class="commentlikesCount" (click)="likeComment(comment, i)" matBadge="{{comment.likes}}" matBadgeOverlap="true" matBadgeSize="small" matBadgeColor="warn">favorite</mat-icon>
+        </div>
+        <br /> <br />
+    </div>
+    <br/>
+    <div>
+      <form #commentForm="ngForm" *ngIf="isUser">
+          <div class="form-group">
+              <textarea id="description" class="form-control" name="description" [(ngModel)]="comment.description"  placeholder="Write comment"  required #description="ngModel"></textarea>
+          </div> 
+          <button type="button"  [disabled]="!commentForm.form.valid" class="btn btn-primary" (click)="saveComment()">Add Comment</button> 
+      </form>
+    </div>
+</div>

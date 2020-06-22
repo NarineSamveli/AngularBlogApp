@@ -1,0 +1,54 @@
+<div class="deletedUser"> Attention! This User is DELETED! </div>
+
+<div>
+    <form [formGroup]="personalFormGroup">
+        <br />
+        <div class="form-group">
+            <label for="exampleInputName">Name Surname</label>
+            <input class="form-control" formControlName="exampleInputName" id="exampleInputName" value ={{user.fullName}} required>
+        </div>
+
+        <div class="form-group">
+            <label for="exampleLogin">Login</label>
+            <input class="form-control" formControlName="exampleLogin" id="exampleLogin" value ={{user.login}} required>
+        </div>
+        
+        <div class="form-group">
+            <label for="exampleInputPassword">Password</label>
+            <input class="form-control" formControlName="exampleInputPassword" id="exampleInputPassword" value ={{user.password}} type="text" required>
+        </div>
+        <br/>
+        
+        <div class="form-group">
+            <label for="exampledateOfBirth">Date Of Birth</label>
+            <input class="form-control" formControlName="exampledateOfBirth" id="exampledateOfBirth" value ={{user.dateOfBirth}} required>
+        </div>
+        <br/>
+
+        <div class="form-group">
+            <label for="exampleInputaboutYou">About You</label>
+            <textarea class="form-control" formControlName="exampleInputaboutYou" id="exampleInputaboutYou" value ={{user.aboutYou}} required></textarea>
+        </div>
+        <br/>
+
+        <div class="form-group">
+            <label for="examplelastName">Photo</label> &nbsp;
+            <img [src]="user.filename" /> &nbsp;
+            <mat-form-field floatPlaceholder="never">
+                <input [hidden]="true" (change)="onFileSelect($event)" type="file" accept="all/*" #fileSelect>
+                <input readonly matInput [(ngModel)]="filename" [ngModelOptions]="{standalone: true}" placeholder="Select new file..."/>
+                <button *ngIf="this.base64File" (click)="this.base64File = null; this.filename = null" matSuffix matTooltip="Remove selected file"
+                        [matTooltipPosition]="'above'" type="button" color="warn" mat-icon-button>
+                        <mat-icon>close</mat-icon>
+                      </button>
+                <button matSuffix mat-icon-button (click)="fileSelect.click();"  matTooltip="Select a file" [matTooltipPosition]="'above'">
+                  <mat-icon>file_upload</mat-icon>
+                </button> 
+            </mat-form-field>
+        </div>
+            <button type="button" class="btn btn-primary" (click)="updateUser()">Save changes</button>
+            <button type="button" class="btn btn-primary" (click)="cancelAll()">Cancel</button>
+            <button name="deleteUser" type="button" class="btn btn-primary" (click)="deleteUser()">Delete user</button>
+            <button name="restoreUser" type="button" class="btn btn-primary" (click)="restoreUser()" disabled>Restore user</button>   
+    </form>
+</div>
