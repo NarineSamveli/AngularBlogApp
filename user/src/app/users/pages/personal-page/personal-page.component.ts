@@ -22,7 +22,8 @@ export class PersonalPageComponent implements OnInit {
         this.router.navigate(['/']);
     }
     this.userService.getUser(localStorage.getItem('loggedInID')).subscribe((user: User) => {
-      this.user = user;
+      // tslint:disable-next-line: no-string-literal
+      this.user = user['data'];
     });
   }
 
@@ -55,7 +56,9 @@ export class PersonalPageComponent implements OnInit {
     }
 
     this.userService.updateThisUser(this.user).subscribe((user: User) => {
-      this.user = user;
+      // tslint:disable-next-line: no-string-literal
+      this.user = user['data'];
+      alert('All updated');
     });
   }
 

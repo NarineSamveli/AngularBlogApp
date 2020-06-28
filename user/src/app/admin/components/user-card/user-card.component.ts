@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../../../users/services/user.service';
 import { User } from '../../../users/models/user.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CommonService } from '../../../commonService/common.service';
+import { CommonService } from '../../../core/commonService/common.service';
 
 
 @Component({
@@ -18,6 +18,9 @@ export class UserCardComponent implements OnInit {
   base64File: string = null;
   filename: string = null;
   public getUser;
+  ngStyleDisplay = 'none';
+  isdeleteUser = false;
+  isrestoreUser = true;
 
   constructor(private userService: UserService, private formBuilder: FormBuilder,
               private router: Router, private commonService: CommonService){
@@ -25,14 +28,16 @@ export class UserCardComponent implements OnInit {
     this.commonService.newUserId.subscribe(id => {
       this.getUser = id;
       this.userService.getUser(this.getUser).subscribe((user: User) => {
-          this.user = user;
-          const elem: HTMLElement = document.getElementsByClassName('deletedUser')[0] as HTMLElement;
+          // tslint:disable-next-line: no-string-literal
+          this.user = user['data'];
           if (this.user.isDeleted === true) {
-            elem.style.display = 'block';
-            const butt: HTMLElement = document.getElementsByName('deleteUser')[0] as HTMLElement;
-            butt.setAttribute('disabled', 'true');
-            const butt2: HTMLElement = document.getElementsByName('restoreUser')[0] as HTMLElement;
-            butt2.removeAttribute('disabled');
+            this.ngStyleDisplay = 'block';
+            this.isdeleteUser =  true;
+            this.isrestoreUser = false;
+          } else {
+            this.ngStyleDisplay = 'none';
+            this.isdeleteUser = false;
+            this.isrestoreUser = true;
           }
       });
     });
@@ -71,14 +76,16 @@ export class UserCardComponent implements OnInit {
     }
 
     this.userService.updateThisUser(this.user).subscribe((user: User) => {
-      this.user = user;
+      // tslint:disable-next-line: no-string-literal
+      this.user = user['data'];
     });
   }
 
   deleteUser(){
     this.user.isDeleted = true;
     this.userService.updateThisUser(this.user).subscribe((user: User) => {
-      this.user = user;
+      // tslint:disable-next-line: no-string-literal
+      this.user = user['data'];
     });
     this.router.navigate(['/home']);
     setTimeout(() => {
@@ -92,7 +99,8 @@ export class UserCardComponent implements OnInit {
   restoreUser(){
     this.user.isDeleted = false;
     this.userService.updateThisUser(this.user).subscribe((user: User) => {
-      this.user = user;
+      // tslint:disable-next-line: no-string-literal
+      this.user = user['data'];
     });
     this.router.navigate(['/home']);
     setTimeout(() => {

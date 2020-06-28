@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Post } from '../../models/post.model';
 import { PostService } from '../../../posts/services/post.service';
 import { Router } from '@angular/router';
-import { CommonService } from '../../../commonService/common.service';
+import { CommonService } from '../../../core/commonService/common.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -42,15 +42,18 @@ export class PostComponent implements OnInit {
   addPost() {
     if (this.post.title){
       // tslint:disable-next-line: no-string-literal
-      if (this.post['_id']){
+      if (this.post.id){
         this.postService.updatePost(this.post).subscribe(res => {
           this.closeBtn.nativeElement.click();
           this.commonService.notifyPostAddition();
         });
       } else {
         this.postService.addPost(this.post).subscribe(res => {
-          this.closeBtn.nativeElement.click();
-          this.commonService.notifyPostAddition();
+          // tslint:disable-next-line: no-string-literal
+          if (res['status'] === 200) {
+            this.closeBtn.nativeElement.click();
+            this.commonService.notifyPostAddition();
+          }
         });
       }
     } else {

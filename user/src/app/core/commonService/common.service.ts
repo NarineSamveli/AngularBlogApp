@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Post } from '../posts/models/post.model';
+import { Post } from '../../posts/models/post.model';
 import { EventEmitter } from '@angular/core';
 
 @Injectable({

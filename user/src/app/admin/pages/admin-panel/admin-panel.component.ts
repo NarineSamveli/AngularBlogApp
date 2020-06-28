@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
-import { CommonService } from '../../../commonService/common.service';
+import { CommonService } from '../../../core/commonService/common.service';
 import { Router } from '@angular/router';
 
 @Component({

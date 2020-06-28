@@ -1,52 +1,55 @@
-var Post = require('../models/post.model')
+const MongoClient = require('mongodb').MongoClient;
+const URL = "mongodb://localhost:27017/blogDb";
+var ObjectId = require('mongodb').ObjectID;
+
+MongoClient.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, db){
+	if(err) return console.log(err);
+	db = db.db("blogDb");
+	userCollection = db.collection('user', function(err, collection) {});
+	postCollection = db.collection('post', function(err, collection) {});
+	commentCollection = db.collection('comment', function(err, collection) {});
+});
 
 exports.getAllPost = async function (query) {
     try {
-        //var users = await User.find(query)
-        var posts = postCollection.find(query).sort({ date: -1, likes: -1}).toArray();
+        var posts = await postCollection.find(query).sort({ date: -1, likes: -1}).toArray();
         return posts;
     } catch (e) {
-        // Log Errors
         throw Error('Error')
     }
 }
 
 exports.getAllUserPost = async function (query) {
     try {
-        //var users = await User.find(query)
-        var posts = postCollection.find(query).sort({ date: -1, likes: -1}).toArray();
+        var posts = await postCollection.find(query).sort({ date: -1, likes: -1}).toArray();
         return posts;
     } catch (e) {
-        // Log Errors
         throw Error('Error')
     }
 }
 
 exports.createPost = async function (post) {
     try {
-        //var users = await User.find(query)
-        var posts = postCollection.insertOne(post).toArray();
+        
+        var posts = await postCollection.insertOne(post);
         return posts;
     } catch (e) {
-        // Log Errors
         throw Error('Error')
     }
 }
 
-exports.deletePost = async function (query) {
+exports.deletePost = async function (query, commQuery) {
     try {
-        //var users = await User.find(query)
-        var posts = postCollection.deleteOne(query);
+        var posts = await postCollection.deleteOne(query);
+        commentCollection.deleteMany(commQuery);
         return posts;
     } catch (e) {
-        // Log Errors
         throw Error('Error')
     }
 }
 
-exports.deletePost = async function (query, newPost) {
+exports.updatePost = async function (query, newPost) {
     try {
-        //var users = await User.find(query)
         postCollection.findOneAndUpdate(query,
         { $set: {
             "title": newPost.title,
@@ -57,11 +60,9 @@ exports.deletePost = async function (query, newPost) {
             },
         }, function(err, res){
             if (err) throw err;
-            if(!err){
-                var posts = postCollection.findOne(query);
-                return posts;
-            }
         });
+        var posts = await postCollection.findOne(query);
+        return posts;
     } catch (e) {
         throw Error('Error')
     }

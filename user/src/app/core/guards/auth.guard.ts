@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { UserService } from '../users/services/user.service';
+import { UserService } from '../../users/services/user.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
     public user;
     constructor( private router: Router, private userService: UserService ) {
         this.userService.getUser(localStorage.getItem('loggedInID')).subscribe(user => {
-            this.user = user;
+            // tslint:disable-next-line: no-string-literal
+            this.user = user['data'];
         });
     }
 
@@ -16,7 +17,7 @@ export class AuthGuard implements CanActivate {
         if (currentUser) {
             this.userService.getUser(localStorage.getItem('loggedInID')).subscribe(user => {
                 // tslint:disable-next-line: no-string-literal
-                if (route.data.roles && route.data.roles.indexOf(user['role']) === -1) {
+                if (route.data.roles && route.data.roles.indexOf(user['data']['role']) === -1) {
                     // role not authorised so redirect to home page
 
                     this.router.navigate(['/home']);

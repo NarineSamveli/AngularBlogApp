@@ -1,4 +1,4 @@
-<div class="deletedUser"> Attention! This User is DELETED! </div>
+<div class="deletedUser" [style.display]="ngStyleDisplay"> Attention! This User is DELETED! </div>
 
 <div>
     <form [formGroup]="personalFormGroup">
@@ -48,7 +48,7 @@
         </div>
             <button type="button" class="btn btn-primary" (click)="updateUser()">Save changes</button>
             <button type="button" class="btn btn-primary" (click)="cancelAll()">Cancel</button>
-            <button name="deleteUser" type="button" class="btn btn-primary" (click)="deleteUser()">Delete user</button>
-            <button name="restoreUser" type="button" class="btn btn-primary" (click)="restoreUser()" disabled>Restore user</button>   
+            <button [disabled]="isdeleteUser" name="deleteUser" type="button" class="btn btn-primary" (click)="deleteUser()">Delete user</button>
+            <button [disabled]="isrestoreUser" name="restoreUser" type="button" class="btn btn-primary" (click)="restoreUser()" disabled>Restore user</button>   
     </form>
 </div>

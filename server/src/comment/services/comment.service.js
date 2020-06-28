@@ -1,9 +1,17 @@
-var Comment = require('../models/comment.model')
+const MongoClient = require('mongodb').MongoClient;
+const URL = "mongodb://localhost:27017/blogDb";
 
-exports.getComments = async function (query) {
+MongoClient.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, db){
+	if(err) return console.log(err);
+	db = db.db("blogDb");
+	userCollection = db.collection('user', function(err, collection) {});
+	postCollection = db.collection('post', function(err, collection) {});
+	commentCollection = db.collection('comment', function(err, collection) {});
+});
+
+exports.getAllComments = async function (query) {
     try {
-        //var users = await User.find(query)
-        var comments = commentCollection.find(query).toArray();
+        var comments = await commentCollection.find(query).toArray();
         return comments;
     } catch (e) {
         // Log Errors
@@ -13,7 +21,7 @@ exports.getComments = async function (query) {
 
 exports.addComment = async function (comment) {
     try {
-        var comments = commentCollection.insertOne(comment);
+        var comments = await commentCollection.insertOne(comment);
         return comments;
     } catch (e) {
         // Log Errors
@@ -34,15 +42,16 @@ exports.deleteComment = async function (query) {
 
 exports.updateComment = async function (query, comment) {
     try {
-        //var users = await User.find(query)
-        commentCollection.findOneAndUpdate(query, 
+        commentCollection.findOneAndUpdate(query,
             { $set: {
                 "description": comment.description,
                 "whoLiked": comment.whoLiked,
                 "likes": comment.likes
                 },
-            });
-        var comments = await commentCollection.findOne(query)
+            }, function(err, res){
+                if (err) throw err;
+        });
+        var comments = await commentCollection.findOne(query);
         return comments;
     } catch (e) {
         // Log Errors

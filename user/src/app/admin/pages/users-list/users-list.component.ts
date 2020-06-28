@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../users/services/user.service';
 import { User } from '../../../users/models/user.model';
-import { CommonService } from '../../../commonService/common.service';
+import { CommonService } from '../../../core/commonService/common.service';
 
 @Component({
   selector: 'app-users-list',
@@ -18,7 +18,8 @@ export class UsersListComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.getAllUsers().subscribe((users: User[]) => {
-      this.dataSource = users;
+      // tslint:disable-next-line: no-string-literal
+      this.dataSource = users['data'];
     });
   }
 

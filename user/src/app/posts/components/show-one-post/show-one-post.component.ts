@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Post } from '../../models/post.model';
 import { PostService } from '../../../posts/services/post.service';
 import { Router } from '@angular/router';
-import { CommonService } from '../../../commonService/common.service';
+import { CommonService } from '../../../core/commonService/common.service';
 import { MatExpansionPanel } from '@angular/material/expansion';
 
 

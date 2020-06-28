@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonService } from '../../../commonService/common.service';
+import { CommonService } from '../../../core/commonService/common.service';
 import { UserService } from '../../../users/services/user.service';
 import { User } from '../../../users/models/user.model';
 
@@ -22,7 +22,8 @@ export class HeaderComponent {
     });
     if (localStorage.getItem('loggedInID')) {
       this.userService.getUser(localStorage.getItem('loggedInID')).subscribe((user: User) => {
-        this.user = user;
+        // tslint:disable-next-line: no-string-literal
+        this.user = user['data'];
         if (this.user.filename !== '') {
           this.filename = this.user.filename;
         }

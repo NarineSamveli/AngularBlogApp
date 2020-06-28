@@ -12,4 +12,8 @@ export class RootComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  get isUser() {
+    return localStorage.getItem('loggedInID') !== null;
+  }
+
 }

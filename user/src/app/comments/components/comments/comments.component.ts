@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CommentService } from '../../services/comment.service';
-import { CommonService } from '../../../commonService/common.service';
+import { CommonService } from '../../../core/commonService/common.service';
 import { User } from '../../../users/models/user.model';
 import { UserService } from '../../../users/services/user.service';
 
@@ -14,21 +14,26 @@ export class CommentsComponent implements OnInit {
   comments: any = [];
   comment: any = {};
   @Input() commentid: any;
+  ngStyleCursor = 'pointer';
 
   constructor(private commonService: CommonService, private commentService: CommentService,
               private userService: UserService ) {
     this.user = new User();
     if (localStorage.getItem('loggedInID')) {
       this.userService.getUser(localStorage.getItem('loggedInID')).subscribe((user: User) => {
-          this.user = user;
+          // tslint:disable-next-line: no-string-literal
+          this.user = user['data'];
       });
     }
 
     this.commonService.newId.subscribe(id => {
       this.commentid = id;
       this.commentService.getAllComments(this.commentid).subscribe((res: any) => {
-        if (res.success){
-          this.comments = res.data;
+        // tslint:disable-next-line: no-string-literal
+        console.log()
+        if (res['status'] === 200){
+          // tslint:disable-next-line: no-string-literal
+          this.comments = res['data'];
         } else{
           alert('No Comments Found.');
         }
@@ -38,17 +43,25 @@ export class CommentsComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.commentService.getAllComments(this.commentid).subscribe((res: any) => {
-      if (res.success){
-        this.comments = res.data;
-      } else{
-        alert('No Comments Found.');
-      }
-    });
+    if (this.commentid.id !== '') {
+      this.commentService.getAllComments(this.commentid).subscribe((res: any) => {
+        // tslint:disable-next-line: no-string-literal
+        if (res['status'] === 200){
+          // tslint:disable-next-line: no-string-literal
+          this.comments = res['data'];
+        } else{
+          alert('No Comments Found.');
+        }
+      });
+    }
   }
 
   get isAdmin() {
     return this.user.role === 'admin';
+  }
+
+  get isUser() {
+    return this.user.role === 'user';
   }
 
   saveComment(){
@@ -60,25 +73,19 @@ export class CommentsComponent implements OnInit {
     this.comment.likes = 0;
     this.comment.date = new Date();
     this.commentService.addComment(this.comment).subscribe((res: any) => {
-      if (res.success){
+      // tslint:disable-next-line: no-string-literal
+      if (res['status'] === 200){
         this.comment = {};
         this.ngOnInit();
       }
     });
   }
 
-  get isUser() {
-    return this.user.role !== '';
-  }
-
   likeComment(comment, i) {
     const whoLiked = this.user.fullName;
     if (whoLiked) {
       if (this.user.role === 'admin') {
-        // tslint:disable-next-line: max-line-length
-        const changeClass: HTMLElement = document.getElementsByClassName('commentsBlock')[i].getElementsByClassName('commentlikesCount')[0] as HTMLElement;
-        changeClass.setAttribute('disabled', 'true') ;
-        changeClass.style.cursor = 'not-allowed';
+        this.ngStyleCursor = 'not-allowed';
       } else {
         if (comment.whoLiked === '') {
           comment.whoLiked = whoLiked;
@@ -94,6 +101,7 @@ export class CommentsComponent implements OnInit {
           }
         }
       }
+
       this.commentService.updateComment(comment).subscribe(res => {
       });
     }
@@ -102,7 +110,8 @@ export class CommentsComponent implements OnInit {
   deleteComment(comm){
     // tslint:disable-next-line: no-string-literal
     this.commentService.deleteComment(comm['_id']).subscribe((res: any) => {
-      if (res.delete){
+      // tslint:disable-next-line: no-string-literal
+      if (res['status'] === 200){
         this.ngOnInit();
       }
     });

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { PostService } from '../../../posts/services/post.service';
 import { Post } from '../../models/post.model';
-import { CommonService } from '../../../commonService/common.service';
+import { CommonService } from '../../../core/commonService/common.service';
 import { User } from '../../../users/models/user.model';
 import { UserService } from '../../../users/services/user.service';
 
@@ -15,6 +15,7 @@ export class ShowAllPostsComponent implements OnInit {
   public post_to_delete;
   public posts: any [];
   user: User;
+  ngStyleCursor = 'pointer';
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
   constructor(private postService: PostService, private commonService: CommonService,
@@ -22,7 +23,8 @@ export class ShowAllPostsComponent implements OnInit {
     this.user = new User();
     if (localStorage.getItem('loggedInID')) {
       this.userService.getUser(localStorage.getItem('loggedInID')).subscribe((user: User) => {
-        this.user = user;
+        // tslint:disable-next-line: no-string-literal
+        this.user = user['data'];
       });
     }
   }
@@ -39,13 +41,11 @@ export class ShowAllPostsComponent implements OnInit {
         this.posts = result['data'];
       });
     });
-
   }
 
   get isAdmin() {
     return this.user.role === 'admin';
   }
-
 
   editPost(post: Post){
     this.commonService.setPostToEdit(post);
@@ -66,20 +66,13 @@ export class ShowAllPostsComponent implements OnInit {
     const whoLiked = this.user.fullName;
     if (whoLiked) {
       if (this.user.role === 'admin') {
-        // tslint:disable-next-line: max-line-length
-        const changeClass: HTMLElement = document.getElementsByClassName('likes')[i].getElementsByClassName('likesCount')[0] as HTMLElement;
-        changeClass.setAttribute('disabled', 'true') ;
-        changeClass.style.cursor = 'not-allowed';
+        this.ngStyleCursor = 'not-allowed';
       } else {
         if (post.whoLiked === undefined) {
           post.whoLiked = whoLiked;
           post.likes = +post.likes + 1;
         } else {
           if (post.whoLiked.indexOf(whoLiked) >= 0) {
-            // tslint:disable-next-line: max-line-length
-            // const changeClass: HTMLElement = document.getElementsByClassName('likes')[i].getElementsByClassName('likesCount')[0] as HTMLElement;
-            // changeClass.setAttribute('disabled', 'true') ;
-            // changeClass.style.cursor = 'not-allowed';
             post.whoLiked = post.whoLiked.replace(whoLiked, '');
             post.likes = +post.likes - 1;
           } else {

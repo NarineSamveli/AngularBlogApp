@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { PostService } from '../../../posts/services/post.service';
 import { Post } from '../../../posts/models/post.model';
-import { CommonService } from '../../../commonService/common.service';
+import { CommonService } from '../../../core/commonService/common.service';
 
 @Component({
   selector: 'app-show-post',

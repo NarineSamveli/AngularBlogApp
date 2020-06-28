@@ -16,20 +16,12 @@ export class LoginComponent implements OnInit {
    }
 
   validateLogin() {
-    // if (this.user.login === 'admin' && this.user.password === 'admin') {
-    //   localStorage.setItem('loggedInUser', this.user.login);
-    //   localStorage.setItem('loggedInID', this.user.password);
-    //   localStorage.setItem('loggedInPassword', this.user.password);
-    //   this.user.role = 'admin';
-    //   this.router.navigate(['/home']);
-    //   return;
-    // }
+
     if (this.user.login && this.user.password) {
         // tslint:disable-next-line: align
         this.authorizationService.validateLogin(this.user).subscribe(result => {
-        // console.log('result is ', result);
         // tslint:disable-next-line: no-string-literal
-        if (result['status'] === 'success') {
+        if (result['status'] === 200) {
           // tslint:disable-next-line: no-string-literal
           this.user = result['data'];
           // tslint:disable-next-line: no-string-literal

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { PasswordValidation } from './password-regis';
-import { AppCustomDirective } from './date-valid';
+import { PasswordValidation } from '../../../core/validators/password-regis';
+import { AppCustomDirective } from '../../../core/validators/date-valid';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { AuthorizationService } from '../../services/authentication.service';
 
