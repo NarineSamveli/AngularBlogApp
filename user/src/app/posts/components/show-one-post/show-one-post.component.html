@@ -17,16 +17,17 @@
                         <label for="oneInputTitle1">Title</label>
                         <input name="title" readonly type="text" [(ngModel)]="post.title" class="form-control" id="oneInputTitle1" placeholder="Enter title">
                     </div>
-                    
-                    <div id="DescriptionBlock" class="form-group" [style.display]="isVisible ? 'block' : 'none'">
-                        <label for="oneInputDescription1">Description</label>
-                        <textarea name="description" readonly [(ngModel)]="post.description" class="form-control" id="oneInputDescription1" placeholder="Description">
-                        </textarea>
+                    <br/>
+                    <br/>                    
+                    <label for="examplelastName">Description</label>
+                    <div class="textBlock" *ngFor="let postPartText of postText, index as i">
+                        <textarea id="description" class="form-control" name="description">{{postPartText}}</textarea> &nbsp;
+                      <br />
                     </div>
-
-                    <div id="ImageBlock" class="form-group" [style.display]="isVisible2 ? 'block' : 'none'">
-                        <label for="examplelastName">Photo</label>
-                        <img [src]="post.image" /> &nbsp;                        
+                    <label for="examplelastName">Photo</label>
+                    <div class="imageBlock" *ngFor="let postPartImage of postImage, index as i">
+                        <img [src]="postPartImage" /> &nbsp;
+                      <br />
                     </div>
 
                     <mat-accordion>

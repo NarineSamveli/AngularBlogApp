@@ -90,7 +90,7 @@
       <br/>
       <div>
         <button mat-button (click)="stepper.reset()">Reset</button>&nbsp;
-        <button id="accepted" mat-raised-button color="primary" (click)="confirmYes()" disabled="disabled" >Done</button> 
+        <button [disabled]="isDisabled" id="accepted" mat-raised-button color="primary" (click)="confirmYes()" disabled="disabled" >Done</button> 
       </div>
     </mat-step>
   </mat-horizontal-stepper>

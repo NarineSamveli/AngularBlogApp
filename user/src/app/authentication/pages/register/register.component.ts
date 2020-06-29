@@ -29,6 +29,7 @@ export class RegisterComponent implements OnInit {
   user;
   base64File: string = null;
   filename: string = null;
+  isDisabled = true;
 
   constructor( private formBuilder: FormBuilder, private authorizationService: AuthorizationService ) { }
 
@@ -76,7 +77,7 @@ export class RegisterComponent implements OnInit {
 
   public resolved(captchaResponse: string) {
     // console.log(`Resolved captcha with response: ${captchaResponse}`);
-    document.getElementById('accepted').removeAttribute('disabled');
+    this.isDisabled = false;
   }
 }
 

@@ -15,6 +15,11 @@ export class PostComponent implements OnInit {
   addFormGroup: FormGroup;
   base64File: string = null;
   filename: string = null;
+  ngStyleDescriptionBlock = 'block';
+  ngStyleImageBlock = 'block';
+  public postText = [];
+  public postImage = [];
+  postDescription = '';
 
   @ViewChild('closeBtn') closeBtn: ElementRef;
   public post: Post;
@@ -30,7 +35,8 @@ export class PostComponent implements OnInit {
   ngOnInit(): void {
     this.commonService.postEdit_Observable.subscribe(res => {
       this.post = this.commonService.post_to_be_edited;
-      // console.log('post is ', this.post._id);
+      this.postText = this.post.description;
+      this.postImage = this.post.image;
     });
 
     // this.addFormGroup = this.formBuilder.group({
@@ -39,15 +45,25 @@ export class PostComponent implements OnInit {
     // });
   }
 
+  changeText(e, i){
+    if (this.postText[i] !== e) {
+      this.postText[i] = e;
+    }
+  }
+
   addPost() {
     if (this.post.title){
       // tslint:disable-next-line: no-string-literal
-      if (this.post.id){
+      if (this.post['_id']){
+        this.post.description = this.postText;
+        this.post.image = this.postImage;
         this.postService.updatePost(this.post).subscribe(res => {
           this.closeBtn.nativeElement.click();
           this.commonService.notifyPostAddition();
         });
       } else {
+        this.post.image = this.postImage;
+        this.post.description = this.postText;
         this.postService.addPost(this.post).subscribe(res => {
           // tslint:disable-next-line: no-string-literal
           if (res['status'] === 200) {
@@ -61,14 +77,17 @@ export class PostComponent implements OnInit {
     }
   }
 
-  show(count){
-    if (count === 1) {
-      document.getElementById('DescriptionBlock').style.display = 'block';
-      document.getElementById('ImageBlock').style.display = 'none';
-    } else if (count === 2) {
-      document.getElementById('DescriptionBlock').style.display = 'none';
-      document.getElementById('ImageBlock').style.display = 'block';
+  show(){
+    if (this.postDescription) {
+      this.postText.push(this.postDescription);
     }
+
+    if (this.base64File) {
+      this.postImage.push(this.base64File);
+    }
+    this.filename = '';
+    this.base64File = '';
+
   }
 
   onFileSelect(e: any): void {
@@ -80,7 +99,7 @@ export class PostComponent implements OnInit {
       fReader.onloadend = (e: any) => {
         this.filename = file.name;
         this.base64File = e.target.result;
-        this.post.image = this.base64File;
+        // this.post.image = this.base64File;
       };
     } catch (error) {
       this.filename = null;

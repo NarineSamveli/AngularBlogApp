@@ -14,32 +14,17 @@
                         <input name="title" type="text" [(ngModel)]="post.title" class="form-control" id="exampleInputTitle1" placeholder="Enter title" required>
                     </div>
                     
-                    <div class="btn-group">
-                        <button type="button" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" id="dropdownMenuLink">
-                            Select post type: 
-                          <span class="caret"></span>
-                        </button>
-                        
-                        <!-- Выпадающее меню -->
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                          <!-- Пункты меню -->
-                          <a class="dropdown-item" (click)="show(1)">Text block</a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" (click)="show(2)">Image block</a>
-                        </div>
-                    </div>
                     <br/>
                     <br/>
-                    <div id="DescriptionBlock" class="form-group" style="display:none">
+                    <div id="DescriptionBlock" class="form-group" [style.display]="ngStyleDescriptionBlock">
                         <label for="exampleInputDescription1">Description</label>
-                        <textarea name="description" [(ngModel)]="post.description" class="form-control" id="exampleInputDescription1" placeholder="Description">
+                        <textarea name="description" [(ngModel)]="this.postDescription" class="form-control" id="exampleInputDescription1" placeholder="Description">
                         </textarea>
                     </div>
 
-
-                    <div id="ImageBlock" class="form-group" style="display:none">
+                    <div id="ImageBlock" class="form-group" [style.display]="ngStyleImageBlock">
                         <label for="examplelastName">Photo</label>
-                        <img [src]="post.image" /> &nbsp;
+                        <img [src]="this.base64File" /> &nbsp;
                         <mat-form-field floatPlaceholder="never">
                             <input [hidden]="true" (change)="onFileSelect($event)" type="file" accept="all/*" #fileSelect>
                             <input readonly matInput [(ngModel)]="filename" [ngModelOptions]="{standalone: true}" placeholder="Select new file..."/>
@@ -52,6 +37,20 @@
                             </button> 
                         </mat-form-field>
                     </div>
+                    <button name="imageButton" type="button" class="btn btn-primary" (click)="show()">
+                        Add one more block 
+                    </button>&nbsp; &nbsp; &nbsp;
+                    <br /> <br />
+
+                    <div class="textBlock" *ngFor="let postPartText of postText, index as i">
+                        <textarea (change)="changeText($event.target.value, i)" id="description" class="form-control" name="description" [value]="postPartText">{{postPartText}}</textarea> &nbsp;
+                      <br />
+                    </div>
+                    <div class="imageBlock" *ngFor="let postPartImage of postImage, index as i">
+                        <img [src]="postPartImage" /> &nbsp;
+                      <br />
+                    </div>
+
                     <button (click)="addPost()" type="button" class="btn btn-primary">Add</button>
                 </form>
             </div>
