@@ -1,0 +1,24 @@
+table {
+    width: 100%;
+    float: right;
+    position: relative;
+}
+
+tr:hover {
+    background: darken(#efefef, 10%);
+    cursor: pointer;
+}
+
+tr:active {
+    background: #efefef;
+}
+
+
+th{
+    background-color: lightblue;
+    position: sticky;
+    top: 0px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 10px 20px;
+}

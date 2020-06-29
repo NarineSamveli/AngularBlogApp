@@ -1,0 +1,25 @@
+.header-regis {
+    margin-bottom: 10px;
+    font-weight: 400;
+    position: relative;
+    box-sizing: border-box;
+    z-index: 2;
+
+    font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif;
+  }
+
+  mat-horizontal-stepper {
+    overflow: hidden;
+    padding: 0 24px 24px 24px;
+    text-align: center;
+  }
+ 
+  re-captcha {
+    display: inline-block;
+  }
+
+  mat-form-field {
+      min-width: 150px;
+      max-width: 500px;
+      width: 100%;
+  }

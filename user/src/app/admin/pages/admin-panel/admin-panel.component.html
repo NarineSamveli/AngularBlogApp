@@ -1,0 +1,10 @@
+<mat-tab-group (selectedTabChange)="tabClick($event)" #tabGroup>
+    <mat-tab label="Users" name="Users">  
+      <app-users-list></app-users-list>
+    </mat-tab>
+    <mat-tab label="Quiz" name="Quiz" disabled>
+      <app-user-card ></app-user-card>
+    </mat-tab>
+</mat-tab-group>
+  <app-delete-modal></app-delete-modal>
+  <br/>

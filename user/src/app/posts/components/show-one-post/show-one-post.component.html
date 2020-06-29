@@ -1,0 +1,52 @@
+<div class="modal fade oneModal" id="oneModal" tabindex="-1" role="dialog" aria-labelledby="oneModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="oneModalLabel">Post </h5>
+                <button type="button" #closeBtn class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="oneInputauthor1">Author</label>
+                        <input name="author" readonly type="text" [(ngModel)]="post.author" class="form-control" id="oneInputauthor1" placeholder="Enter title">
+                    </div>
+                    <div class="form-group">
+                        <label for="oneInputTitle1">Title</label>
+                        <input name="title" readonly type="text" [(ngModel)]="post.title" class="form-control" id="oneInputTitle1" placeholder="Enter title">
+                    </div>
+                    <br/>
+                    <br/>                    
+                    <label for="examplelastName">Description</label>
+                    <div class="textBlock" *ngFor="let postPartText of postText, index as i">
+                        <textarea id="description" class="form-control" name="description">{{postPartText}}</textarea> &nbsp;
+                      <br />
+                    </div>
+                    <label for="examplelastName">Photo</label>
+                    <div class="imageBlock" *ngFor="let postPartImage of postImage, index as i">
+                        <img [src]="postPartImage" /> &nbsp;
+                      <br />
+                    </div>
+
+                    <mat-accordion>
+                        <mat-expansion-panel (opened)="panelOpenState = true"
+                                             (closed)="panelOpenState = false" #matExpansionPanel>
+                          <mat-expansion-panel-header class="commentPanel" (click)="togglePanel($event, post)">
+                            <mat-panel-title> Comments &nbsp; <i class="fa fa-comments" aria-hidden="true"></i></mat-panel-title>
+                            <mat-panel-description>
+                              Currently I am {{panelOpenState ? 'open' : 'closed'}}
+                            </mat-panel-description>
+                          </mat-expansion-panel-header>
+                          <app-comments [commentid]="post" ></app-comments>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                    <br/>
+
+                      <button #closeBtn  type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,5 @@
+[
+    {"_id":{"$oid":"5ef5c2c87076711d0c590c34"},"login":"pooony","email":"assessment@gmail.com","password":"123","confirmPassword":"123","fullName":"Poooon Pon","dateOfBirth":"2020-05-31","aboutYou":"ccccccccc","filename":"","role":"user","isDeleted":false},
+    {"_id":{"$oid":"5ef5c94ca27bfb5c549d3f85"},"login":"narine","email":"assessment@gmail.com","password":"123","confirmPassword":"123","fullName":"Narine Samveli","dateOfBirth":"2020-05-31T21:00:00.000Z","aboutYou":"2222","filename":"","role":"user","isDeleted":false}
+
+]
